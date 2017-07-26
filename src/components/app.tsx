@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, ButtonType } from 'office-ui-fabric-react';
 import { Header } from './header';
-import { HeroList, HeroListItem } from './hero-list';
+import { LoginControl } from './logincontrol';
 import axios from 'axios';
 
 export interface AppProps {
@@ -24,29 +24,20 @@ export class App extends React.Component<AppProps, AppState> {
 
     componentDidMount() {
         this.setState({
-            prompts: [
-                {
-                    icon: 'Ribbon',
-                    primaryText: 'Achieve more with Office integration'
-                },
-                {
-                    icon: 'Unlock',
-                    primaryText: 'Unlock features and functionality'
-                }
-            ],
             selectedPrompt: 'initial text'
         });
     },
 
     login: function() {
         var self = this;
+        console.log('login');
         axios.get('/api/auth', {
             headers: {
                 'user': 'wordup2017',
                 'pass': 'hackaton'
             }
         })
-            .then(function (response) {
+            .then(function () {
                 self.getNewPosts();
             })
     },
@@ -62,8 +53,8 @@ export class App extends React.Component<AppProps, AppState> {
 
     update: function(response) {
         this.setState({
-            prompts: response.data.data.children;
-            selectedPrompt: response.data.data.children[0].data.title;
+            prompts: response.data.data.children,
+            selectedPrompt: response.data.data.children[0].data.title
         });
     },
 
@@ -72,17 +63,14 @@ export class App extends React.Component<AppProps, AppState> {
             var body = context.document.body;
             body.insertParagraph(this.state.selectedPrompt, Word.InsertLocation.start);
             await context.sync();
-        }).bind(this);
+        });
     }
 
     render() {
         return (
             <div className='ms-welcome'>
-                <Header logo='assets/icon-52.png' title={this.props.title} message='Welcome' />                
-                <HeroList message={this.state.selectedPrompt} items={this.state.prompts}>
-                    <p className='ms-font-l'>Log into Reddit to start.</p>
-                    <Button className='ms-welcome__action' buttonType={ButtonType.hero} icon='ChevronRight' onClick={this.login.bind(this)}>Login</Button>
-                </HeroList>
+                <Header logo='assets/icon-52.png' title={this.props.title} message='Welcome' /> 
+                <LoginControl onClick = {this.login.bind(this) } loginMessage='Log into Reddit to start.'/>               
             </div>
         );
     }
