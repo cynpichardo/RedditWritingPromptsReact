@@ -2,26 +2,29 @@ import * as React from 'react';
 import { Button, ButtonType } from 'office-ui-fabric-react';
 import { Header } from './header';
 import { HeroList, HeroListItem } from './hero-list';
+import axios from 'axios';
 
 export interface AppProps {
     title: string;
 }
 
 export interface AppState {
-    listItems: HeroListItem[];
+    prompts: HeroListItem[];
+    selectedPrompt: string;
 }
 
 export class App extends React.Component<AppProps, AppState> {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            listItems: []
+            prompts: [],
+            selectedPrompt: ''
         };
-    }
+    },
 
     componentDidMount() {
         this.setState({
-            listItems: [
+            prompts: [
                 {
                     icon: 'Ribbon',
                     primaryText: 'Achieve more with Office integration'
@@ -30,30 +33,57 @@ export class App extends React.Component<AppProps, AppState> {
                     icon: 'Unlock',
                     primaryText: 'Unlock features and functionality'
                 }
-            ]
+            ],
+            selectedPrompt: 'initial text'
         });
-    }
+    },
 
-    click = async () => {
-        
-        await Word.run(async (context) => {
-            /**
-             * Insert your Word code here
-             */
-            await context.sync();
+    login: function() {
+        var self = this;
+        axios.get('/api/auth', {
+            headers: {
+                'user': 'wordup2017',
+                'pass': 'hackaton'
+            }
+        })
+            .then(function (response) {
+                self.getNewPosts();
+            })
+    },
+
+    getNewPosts: function() {
+        var self = this;
+        axios.get('/api/getNewPosts')
+            .then(function (response) {
+                self.update(response);
+                self.addPromptToDoc();
+            })
+    },
+
+    update: function(response) {
+        this.setState({
+            prompts: response.data.data.children;
+            selectedPrompt: response.data.data.children[0].data.title;
         });
-        
+    },
+
+    addPromptToDoc = async () => {
+        await Word.run(async (context) => {
+            var body = context.document.body;
+            body.insertParagraph(this.state.selectedPrompt, Word.InsertLocation.start);
+            await context.sync();
+        }).bind(this);
     }
 
     render() {
         return (
             <div className='ms-welcome'>
-                <Header logo='assets/icon-52.png' title={this.props.title} message='Welcome' />
-                <HeroList message='Discover what Reddit Writing Prompts can do!' items={this.state.listItems}>
+                <Header logo='assets/icon-52.png' title={this.props.title} message='Welcome' />                
+                <HeroList message={this.state.selectedPrompt} items={this.state.prompts}>
                     <p className='ms-font-l'>Log into Reddit to start.</p>
-                    <Button className='ms-welcome__action' buttonType={ButtonType.hero} icon='ChevronRight' onClick={this.click}>Login</Button>
+                    <Button className='ms-welcome__action' buttonType={ButtonType.hero} icon='ChevronRight' onClick={this.login.bind(this)}>Login</Button>
                 </HeroList>
             </div>
         );
-    };
+    }
 };
