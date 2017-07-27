@@ -1,9 +1,4 @@
 import * as React from 'react';
-import {
-  css,
-  getRTL
-} from 'office-ui-fabric-react/lib/Utilities';
-import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 
 export interface HeroListItem {
     author: string;
@@ -22,8 +17,9 @@ export class HeroList extends React.Component<HeroListProps, any> {
     render() {
         const listItems = this.props.items.map((item, index) => (
             <li className='ms-ListBasicExample-itemCell' key={index} onClick={this.addPromptToDoc.bind(this, item)} data-is-focusable={ true }>
-                <span className={`ms-Icon ms-Icon--${item.author}`}></span>
+                <span className='ms-ListBasicExample-itemName'>{item.author}</span>
                 <p className='ms-font-m ms-fontColor-neutralPrimary'>{item.title}</p>
+                <br/><br/>
             </li>
         ));
         return (
