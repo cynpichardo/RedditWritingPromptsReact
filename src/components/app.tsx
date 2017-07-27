@@ -20,23 +20,23 @@ export class App extends React.Component<AppProps, AppState> {
             prompts: [],
             selectedPrompt: ''
         };
-    },
+    }
 
     componentDidMount() {
         this.setState({
             prompts: [
                 {
-                    icon: 'Ribbon',
-                    primaryText: 'Achieve more with Office integration'
+                    author: 'Ribbon',
+                    title: 'Achieve more with Office integration'
                 },
                 {
-                    icon: 'Unlock',
-                    primaryText: 'Unlock features and functionality'
+                    author: 'Unlock',
+                    title: 'Unlock features and functionality'
                 }
             ],
             selectedPrompt: 'initial text'
         });
-    },
+    }
 
     login: function() {
         var self = this;
@@ -46,10 +46,10 @@ export class App extends React.Component<AppProps, AppState> {
                 'pass': 'hackaton'
             }
         })
-            .then(function (response) {
+            .then(function () {
                 self.getNewPosts();
             })
-    },
+    }
 
     getNewPosts: function() {
         var self = this;
@@ -58,21 +58,31 @@ export class App extends React.Component<AppProps, AppState> {
                 self.update(response);
                 self.addPromptToDoc();
             })
-    },
+    }
 
     update: function(response) {
+        let promptItems = this.populatePrompts(response.data.data.children);
         this.setState({
-            prompts: response.data.data.children;
-            selectedPrompt: response.data.data.children[0].data.title;
+            selectedPrompt: response.data.data.children[0].data.title,
+            prompts: promptItems,
         });
-    },
+    }
+
+    populatePrompts : function(children) {
+        let promptItems = []; 
+        for (let child of children)
+        {
+            promptItems.push(child.data);
+        }
+        return promptItems;
+    }
 
     addPromptToDoc = async () => {
         await Word.run(async (context) => {
             var body = context.document.body;
             body.insertParagraph(this.state.selectedPrompt, Word.InsertLocation.start);
             await context.sync();
-        }).bind(this);
+        });
     }
 
     render() {

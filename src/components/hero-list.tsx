@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 export interface HeroListItem {
-    icon: string;
-    primaryText: string;
+    author: string;
+    title: string;
 }
 
 export interface HeroListProps {
@@ -18,8 +18,8 @@ export class HeroList extends React.Component<HeroListProps, any> {
     render() {
         const listItems = this.props.items.map((item, index) => (
             <li className='ms-ListItem' key={index}>
-                <i className={`ms-Icon ms-Icon--${item.icon}`}></i>
-                <span className='ms-font-m ms-fontColor-neutralPrimary'>{item.primaryText}</span>
+                <i className={`ms-Icon ms-Icon--${item.author}`}></i>
+                <span className='ms-font-m ms-fontColor-neutralPrimary'>{item.title}</span>
             </li>
         ));
         return (
@@ -32,4 +32,5 @@ export class HeroList extends React.Component<HeroListProps, any> {
             </main>
         );
     };
+
 };
