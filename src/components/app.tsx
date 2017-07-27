@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button, ButtonType } from 'office-ui-fabric-react';
 import { Header } from './header';
+import { HeroList, HeroListItem } from './hero-list';
 import { LoginControl } from './logincontrol';
 import axios from 'axios';
 
@@ -24,7 +25,6 @@ export class App extends React.Component<AppProps, AppState> {
 
     componentDidMount() {
         this.setState({
-<<<<<<< HEAD
             prompts: [
                 {
                     author: 'Ribbon',
@@ -35,8 +35,6 @@ export class App extends React.Component<AppProps, AppState> {
                     title: 'Unlock features and functionality'
                 }
             ],
-=======
->>>>>>> c3e5db4887bf9978425cafb0bd6288ccd175938c
             selectedPrompt: 'initial text'
         });
     }
@@ -67,13 +65,8 @@ export class App extends React.Component<AppProps, AppState> {
     update: function(response) {
         let promptItems = this.populatePrompts(response.data.data.children);
         this.setState({
-<<<<<<< HEAD
-            selectedPrompt: response.data.data.children[0].data.title,
+            //selectedPrompt: response.data.data.children[0].data.title,
             prompts: promptItems,
-=======
-            prompts: response.data.data.children,
-            selectedPrompt: response.data.data.children[0].data.title
->>>>>>> c3e5db4887bf9978425cafb0bd6288ccd175938c
         });
     }
 
@@ -97,7 +90,11 @@ export class App extends React.Component<AppProps, AppState> {
     render() {
         return (
             <div className='ms-welcome'>
-                <Header logo='assets/icon-52.png' title={this.props.title} message='Welcome' /> 
+                <Header logo='assets/icon-52.png' title={this.props.title} message='Welcome' />                
+                <HeroList message={this.state.selectedPrompt} items={this.state.prompts}>
+                    <p className='ms-font-l'>Log into Reddit to start.</p>
+                    <Button className='ms-welcome__action' buttonType={ButtonType.hero} icon='ChevronRight' onClick={this.login.bind(this)}>Login</Button>
+                </HeroList>
                 <LoginControl onClick = {this.login.bind(this) } loginMessage='Log into Reddit to start.'/>               
             </div>
         );
