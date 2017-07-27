@@ -17,12 +17,12 @@ import './assets/styles/global.scss';
     };
 
     /* Initial render showing a progress bar */
-    render(<Progress title={title} logo='assets/icon-52.png' message='Please sideload your addin to see app body.' />, container);
-
+    //render(<Progress title={title} logo='assets/icon-52.png' message='Please sideload your addin to see app body.' />, container);
     render(
-            <App title={title} />,
-            container
-        );
-
+        <App title={title} />,
+        container
+    );
 })();
+
+
 

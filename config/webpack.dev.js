@@ -59,7 +59,6 @@ module.exports = webpackMerge(commonConfig, {
                     '/r/writingprompts/new?limit=5',
                     {},
                     function (error, response, body, next) {
-                        console.log(error);
                         // next is not null, therefore there are more pages 
                         if (next) {
                             next(); // Invoke next to retrieve the next page 

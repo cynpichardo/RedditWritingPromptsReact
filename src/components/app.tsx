@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Button, ButtonType } from 'office-ui-fabric-react';
 import { Header } from './header';
-import { HeroList, HeroListItem } from './hero-list';
 import { LoginControl } from './logincontrol';
+import { HomeView } from './homeview';
+import { PromptsView } from './promptsview';
+import { ExportDoc } from './exportdoc';
 import axios from 'axios';
 
 export interface AppProps {
@@ -10,81 +11,68 @@ export interface AppProps {
 }
 
 export interface AppState {
-    prompts: HeroListItem[];
-    selectedPrompt: string;
+    exportAvailable: boolean;
+    documentBody: string;
+    isLoggedIn: boolean;
+
 }
 
 export class App extends React.Component<AppProps, AppState> {
     constructor(props, context) {
         super(props, context);
+        this.login = this.login.bind(this);
         this.state = {
-            prompts: [],
-            selectedPrompt: ''
+            documentBody: '',
+            exportAvailable: false,
+            isLoggedIn: false
         };
-    }
+    },
 
     componentDidMount() {
         this.setState({
-            prompts: [
-                {
-                    author: 'Ribbon',
-                    title: 'Achieve more with Office integration'
-                },
-                {
-                    author: 'Unlock',
-                    title: 'Unlock features and functionality'
-                }
-            ],
-            selectedPrompt: 'initial text'
         });
-    }
+    },
 
     login() {
-        console.log('login');
         axios.get('/api/auth', {
             headers: {
                 'user': 'wordup2017',
                 'pass': 'hackaton'
             }
         })
-        .then( () => this.getNewPosts())
-    }
+            .then(function () {
+                this.setState({
+                    isLoggedIn: true
+                });
+            }.bind(this))
+    },
 
-    getNewPosts() {
-        axios.get('/api/getNewPosts')
-            .then((response) => {
-                this.update(response);
-                this.addPromptToDoc();
-            })
-    }
+    logout: function() {
+        this.setState = {
+            isLoggedIn: false,
+            documentBody: '',
+            exportAvailable: false
+        };
+    },
 
-    update(response) {
-        let promptItems = this.populatePrompts(response.data.data.children);
-        this.setState({
-            //selectedPrompt: response.data.data.children[0].data.title,
-            prompts: promptItems,
+    export: = async () => {
+        await Word.run(async (context) => {
+            var documentBody = context.document.body;
+            context.load(documentBody);
+            await context.sync();
+            this.setState({
+                documentBody: documentBody.text
+            });
         });
-    }
-
-    populatePrompts(children) {
-        let promptItems = []; 
-        for (let child of children)
-        {
-            promptItems.push(child.data);
-        }
-        return promptItems;
-    }
+    },
 
     render() {
+        const isLoggedIn = this.state.isLoggedIn;
+        const view = (isLoggedIn) ? <PromptsView/> : <HomeView handleLogin={this.login}/>;
         return (
             <div className='ms-welcome'>
-                <Header logo='assets/icon-52.png' title={this.props.title} message='Welcome' />                
-                <HeroList message={this.state.selectedPrompt} items={this.state.prompts}>
-                    <p className='ms-font-l'>Log into Reddit to start.</p>
-                    <Button className='ms-welcome__action' buttonType={ButtonType.hero} icon='ChevronRight' onClick={this.login.bind(this)}>Login</Button>
-                </HeroList>
-                <LoginControl onClick = {this.login.bind(this) } loginMessage='Log into Reddit to start.'/>
-            </div>     
+                {view}
+            </div>
         );
     }
 };
