@@ -10,7 +10,11 @@ export interface AppProps {
 export interface AppState {
     exportAvailable: boolean;
     documentBody: string;
+    loginLoading: boolean;
     isLoggedIn: boolean;
+    newPrompts: PromptsListItem[];
+    hotPrompts: PromptsListItem[];
+    risingPrompts: PromptsListItem[];
 
 }
 
@@ -18,10 +22,17 @@ export class App extends React.Component<AppProps, AppState> {
     constructor(props, context) {
         super(props, context);
         this.login = this.login.bind(this);
+        this.getNewPosts = this.getNewPosts.bind(this);
+        this.getHotPosts = this.getHotPosts.bind(this);
+        this.getRisingPosts = this.getRisingPosts.bind(this);
         this.state = {
+            newPrompts: [],
+            hotPrompts: [],
+            risingPrompts: [],
             documentBody: '',
             exportAvailable: false,
-            isLoggedIn: false
+            isLoggedIn: false,
+            loginLoading: false
         };
     }
 
@@ -38,8 +49,11 @@ export class App extends React.Component<AppProps, AppState> {
             }
         })
             .then(function () {
+                this.getNewPosts();
+                this.getHotPosts();
+                this.getRisingPosts();
                 this.setState({
-                    isLoggedIn: true
+                    loginLoading: true
                 });
             }.bind(this))
     }
@@ -50,6 +64,47 @@ export class App extends React.Component<AppProps, AppState> {
             documentBody: '',
             exportAvailable: false
         });
+    }
+
+    getNewPosts() {
+        axios.get('/api/getNewPosts')
+            .then(function (response) {
+                var prompts = this.populatePrompts(response.data.data.children);
+                this.setState({
+                    newPrompts: prompts
+                });
+            }.bind(this))
+    }
+
+    getHotPosts() {
+        axios.get('/api/getHotPosts')
+            .then(function (response) {
+                var prompts = this.populatePrompts(response.data.data.children);
+                this.setState({
+                    hotPrompts: prompts
+                });
+            }.bind(this))
+    }
+
+    getRisingPosts() {
+        axios.get('/api/getRisingPosts')
+            .then(function (response) {
+                var prompts = this.populatePrompts(response.data.data.children);
+                this.setState({
+                    risingPrompts: prompts,
+                    selectedPrompt: response.data.data.children[0].data.title,
+                    exportAvailable: true,
+                    isLoggedIn: true
+                });
+            }.bind(this))
+    }
+
+    populatePrompts(items) {
+        var promptItems = [];
+        for (var item of items) {
+            promptItems.push(item.data);
+        }
+        return promptItems;
     }
 
     async export() {
@@ -65,7 +120,8 @@ export class App extends React.Component<AppProps, AppState> {
 
     render() {
         const isLoggedIn = this.state.isLoggedIn;
-        const view = (isLoggedIn) ? <PromptsView/> : <HomeView handleLogin={this.login}/>;
+        const view = (isLoggedIn) ? <PromptsView newPrompts={this.state.newPrompts} hotPrompts={this.state.hotPrompts} risingPrompts={this.state.risingPrompts}/>
+            : <HomeView loginLoading={this.state.loginLoading} handleLogin={this.login}/>;
         return (
             <div className='ms-welcome'>
                 {view}
