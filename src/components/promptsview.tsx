@@ -1,11 +1,6 @@
 import * as React from 'react';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
-import { Label } from 'office-ui-fabric-react/lib/Label';
-import { Header } from './header';
 import { HeroList, HeroListItem } from './hero-list';
-import { LoginControl } from './logincontrol';
-import { HomeView } from './homeview';
-import { ExportDoc } from './exportdoc';
 import axios from 'axios';
 
 export interface PromptsViewProps {

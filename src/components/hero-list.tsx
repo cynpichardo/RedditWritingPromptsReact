@@ -6,7 +6,6 @@ export interface HeroListItem {
 }
 
 export interface HeroListProps {
-    message: string;
     items: HeroListItem[]
 }
 
@@ -24,7 +23,6 @@ export class HeroList extends React.Component<HeroListProps, any> {
         ));
         return (
             <main className='ms-welcome__main'>
-                <h2 className='ms-font-xl ms-fontWeight-semilight ms-fontColor-neutralPrimary ms-u-slideUpIn20'>{this.props.message}</h2>
                 <ul className='ms-List ms-welcome__features ms-u-slideUpIn10'>
                     {listItems}
                 </ul>
@@ -33,7 +31,7 @@ export class HeroList extends React.Component<HeroListProps, any> {
         );
     };
 
-     async addPromptToDoc(item, event)  {
+     async addPromptToDoc(item)  {
         await Word.run(async function(context) {
             var body = context.document.body;
             body.insertParagraph(item.title, Word.InsertLocation.start);

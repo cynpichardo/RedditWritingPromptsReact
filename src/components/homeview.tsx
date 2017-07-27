@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Header } from './header';
 import { HeroList } from './hero-list';
-import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { Label } from 'office-ui-fabric-react/lib/Label';
-import axios from 'axios';
 
 export interface HomeViewProps {
     handleLogin: void;
@@ -12,7 +11,7 @@ export interface HomeViewProps {
 export interface HomeViewState {
 }
 
-export class HomeView extends React.Component<AppProps, HomeViewState> {
+export class HomeView extends React.Component<HomeViewProps, HomeViewState> {
     constructor(props, context) {
         super(props, context);
         this.handleLogin = this.handleLogin.bind(this);

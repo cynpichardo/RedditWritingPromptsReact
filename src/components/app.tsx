@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { Header } from './header';
-import { LoginControl } from './logincontrol';
 import { HomeView } from './homeview';
 import { PromptsView } from './promptsview';
-import { ExportDoc } from './exportdoc';
 import axios from 'axios';
 
 export interface AppProps {
