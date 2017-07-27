@@ -23,12 +23,12 @@ export class App extends React.Component<AppProps, AppState> {
             exportAvailable: false,
             isLoggedIn: false
         };
-    },
+    }
 
     componentDidMount() {
         this.setState({
         });
-    },
+    }
 
     login() {
         axios.get('/api/auth', {
@@ -42,17 +42,17 @@ export class App extends React.Component<AppProps, AppState> {
                     isLoggedIn: true
                 });
             }.bind(this))
-    },
+    }
 
-    logout: function() {
-        this.setState = {
+    logout() {
+        this.setState ({
             isLoggedIn: false,
             documentBody: '',
             exportAvailable: false
-        };
-    },
+        });
+    }
 
-    export: = async () => {
+    async export() {
         await Word.run(async (context) => {
             var documentBody = context.document.body;
             context.load(documentBody);
@@ -61,7 +61,7 @@ export class App extends React.Component<AppProps, AppState> {
                 documentBody: documentBody.text
             });
         });
-    },
+    }
 
     render() {
         const isLoggedIn = this.state.isLoggedIn;

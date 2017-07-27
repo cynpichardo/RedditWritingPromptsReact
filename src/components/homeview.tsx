@@ -17,7 +17,7 @@ export class HomeView extends React.Component<HomeViewProps, HomeViewState> {
         this.handleLogin = this.handleLogin.bind(this);
         this.state = {
         };
-    },
+    }
 
     handleLogin() {
         this.props.handleLogin();
@@ -26,7 +26,7 @@ export class HomeView extends React.Component<HomeViewProps, HomeViewState> {
     componentDidMount() {
         this.setState({
         });
-    },
+    }
 
     render() {
         return (

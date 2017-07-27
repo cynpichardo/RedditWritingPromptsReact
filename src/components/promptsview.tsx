@@ -29,7 +29,7 @@ export class PromptsView extends React.Component<PromptsViewProps, PromptsViewSt
             documentBody: '',
             exportAvailable: false
         };
-    },
+    }
 
     componentDidMount() {
         this.getNewPosts();
@@ -37,7 +37,7 @@ export class PromptsView extends React.Component<PromptsViewProps, PromptsViewSt
         this.getRisingPosts();
         this.setState({
         });
-    },
+    }
 
     getNewPosts() {
         axios.get('/api/getNewPosts')
@@ -47,7 +47,7 @@ export class PromptsView extends React.Component<PromptsViewProps, PromptsViewSt
                     newPrompts: prompts
                 });
             }.bind(this))
-    },
+    }
 
     getHotPosts() {
         axios.get('/api/getHotPosts')
@@ -57,7 +57,7 @@ export class PromptsView extends React.Component<PromptsViewProps, PromptsViewSt
                     hotPrompts: prompts
                 });
             }.bind(this))
-    },
+    }
 
     getRisingPosts() {
         axios.get('/api/getRisingPosts')
@@ -69,7 +69,7 @@ export class PromptsView extends React.Component<PromptsViewProps, PromptsViewSt
                     exportAvailable: true
                 });
             }.bind(this))
-    },
+    }
 
     populatePrompts(items) {
         var promptItems = [];
