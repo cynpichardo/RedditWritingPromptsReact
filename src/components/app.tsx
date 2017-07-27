@@ -39,8 +39,7 @@ export class App extends React.Component<AppProps, AppState> {
         });
     }
 
-    login: function() {
-        var self = this;
+    login() {
         console.log('login');
         axios.get('/api/auth', {
             headers: {
@@ -48,21 +47,18 @@ export class App extends React.Component<AppProps, AppState> {
                 'pass': 'hackaton'
             }
         })
-            .then(function () {
-                self.getNewPosts();
-            })
+        .then( () => this.getNewPosts())
     }
 
-    getNewPosts: function() {
-        var self = this;
+    getNewPosts() {
         axios.get('/api/getNewPosts')
-            .then(function (response) {
-                self.update(response);
-                self.addPromptToDoc();
+            .then((response) => {
+                this.update(response);
+                this.addPromptToDoc();
             })
     }
 
-    update: function(response) {
+    update(response) {
         let promptItems = this.populatePrompts(response.data.data.children);
         this.setState({
             //selectedPrompt: response.data.data.children[0].data.title,
@@ -70,21 +66,13 @@ export class App extends React.Component<AppProps, AppState> {
         });
     }
 
-    populatePrompts : function(children) {
+    populatePrompts(children) {
         let promptItems = []; 
         for (let child of children)
         {
             promptItems.push(child.data);
         }
         return promptItems;
-    }
-
-    addPromptToDoc = async () => {
-        await Word.run(async (context) => {
-            var body = context.document.body;
-            body.insertParagraph(this.state.selectedPrompt, Word.InsertLocation.start);
-            await context.sync();
-        });
     }
 
     render() {
@@ -95,8 +83,8 @@ export class App extends React.Component<AppProps, AppState> {
                     <p className='ms-font-l'>Log into Reddit to start.</p>
                     <Button className='ms-welcome__action' buttonType={ButtonType.hero} icon='ChevronRight' onClick={this.login.bind(this)}>Login</Button>
                 </HeroList>
-                <LoginControl onClick = {this.login.bind(this) } loginMessage='Log into Reddit to start.'/>               
-            </div>
+                <LoginControl onClick = {this.login.bind(this) } loginMessage='Log into Reddit to start.'/>
+            </div>     
         );
     }
 };

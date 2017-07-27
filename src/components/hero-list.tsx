@@ -17,7 +17,7 @@ export class HeroList extends React.Component<HeroListProps, any> {
 
     render() {
         const listItems = this.props.items.map((item, index) => (
-            <li className='ms-ListItem' key={index}>
+            <li className='ms-ListItem' key={index} onClick={this.addPromptToDoc.bind(this, item)}>
                 <i className={`ms-Icon ms-Icon--${item.author}`}></i>
                 <span className='ms-font-m ms-fontColor-neutralPrimary'>{item.title}</span>
             </li>
@@ -32,5 +32,13 @@ export class HeroList extends React.Component<HeroListProps, any> {
             </main>
         );
     };
+
+     async addPromptToDoc(item, event)  {
+        await Word.run(async function(context) {
+            var body = context.document.body;
+            body.insertParagraph(item.title, Word.InsertLocation.start);
+            await context.sync();
+        });
+    }
 
 };
