@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
-import { HeroList, HeroListItem } from './hero-list';
+import { PromptsList, PromptsListItem } from './promptslist';
 import axios from 'axios';
 
 export interface PromptsViewProps {
@@ -8,9 +8,9 @@ export interface PromptsViewProps {
 }
 
 export interface PromptsViewState {
-    newPrompts: HeroListItem[];
-    hotPrompts: HeroListItem[];
-    risingPrompts: HeroListItem[];
+    newPrompts: PromptsListItem[];
+    hotPrompts: PromptsListItem[];
+    risingPrompts: PromptsListItem[];
     selectedPrompt: string;
     exportAvailable: boolean;
     documentBody: string;
@@ -84,16 +84,19 @@ export class PromptsView extends React.Component<PromptsViewProps, PromptsViewSt
             <div className='ms-welcome'>
                 <Pivot>
                     <PivotItem linkText='New'>
-                        <HeroList items={this.state.newPrompts}>
-                        </HeroList>
+                        <PromptsList items={this.state.newPrompts}>
+                        </PromptsList>
                     </PivotItem>
                     <PivotItem linkText='Hot'>
-                        <HeroList items={this.state.hotPrompts}>
-                        </HeroList>
+                        <PromptsList items={this.state.hotPrompts}>
+                        </PromptsList>
                     </PivotItem>
                     <PivotItem linkText='Rising'>
-                        <HeroList items={this.state.risingPrompts}>
-                        </HeroList>
+                        <PromptsList items={this.state.risingPrompts}>
+                        </PromptsList>
+                    </PivotItem>
+                    <PivotItem linkText='Export'>
+                        
                     </PivotItem>
                 </Pivot>
             </div>

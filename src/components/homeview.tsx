@@ -32,10 +32,10 @@ export class HomeView extends React.Component<HomeViewProps, HomeViewState> {
         return (
             <div >
                 <Header logo='assets/icon-52.png' title='Reddit Writing Prompts' message= 'Welcome' />
-                <HeroList items={[]}>
+                <main className="ms-welcome__main">
                     <Label> Log into Reddit to start </Label>
                     <PrimaryButton className='ms-welcome__action' onClick={ this.handleLogin }>Login</PrimaryButton>
-                </HeroList>                
+                </main>              
             </div>
         );
     }

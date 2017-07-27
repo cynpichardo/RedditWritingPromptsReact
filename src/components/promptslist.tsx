@@ -1,15 +1,15 @@
 import * as React from 'react';
 
-export interface HeroListItem {
+export interface PromptsListItem {
     author: string;
     title: string;
 }
 
-export interface HeroListProps {
-    items: HeroListItem[]
+export interface PromptsListProps {
+    items: PromptsListItem[]
 }
 
-export class HeroList extends React.Component<HeroListProps, any> {
+export class PromptsList extends React.Component<PromptsListProps, any> {
     constructor(props, context) {
         super(props, context);
     }
