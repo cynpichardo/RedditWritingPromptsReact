@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
+import { Label } from 'office-ui-fabric-react/lib/Label';
 import { Header } from './header';
 import { HeroList, HeroListItem } from './hero-list';
 import { LoginControl } from './logincontrol';
@@ -11,7 +13,9 @@ export interface PromptsViewProps {
 }
 
 export interface PromptsViewState {
-    prompts: HeroListItem[];
+    newPrompts: HeroListItem[];
+    hotPrompts: HeroListItem[];
+    risingPrompts: HeroListItem[];
     selectedPrompt: string;
     exportAvailable: boolean;
     documentBody: string;
@@ -23,7 +27,9 @@ export class PromptsView extends React.Component<PromptsViewProps, PromptsViewSt
         super(props, context);
         this.getNewPosts = this.getNewPosts.bind(this);
         this.state = {
-            prompts: [],
+            newPrompts: [],
+            hotPrompts: [],
+            risingPrompts: [],
             selectedPrompt: '',
             documentBody: '',
             exportAvailable: false
@@ -32,6 +38,8 @@ export class PromptsView extends React.Component<PromptsViewProps, PromptsViewSt
 
     componentDidMount() {
         this.getNewPosts();
+        this.getHotPosts();
+        this.getRisingPosts();
         this.setState({
         });
     },
@@ -39,8 +47,29 @@ export class PromptsView extends React.Component<PromptsViewProps, PromptsViewSt
     getNewPosts() {
         axios.get('/api/getNewPosts')
             .then(function (response) {
-                this.populatePrompts(response.data.data.children);
+                var prompts = this.populatePrompts(response.data.data.children);
                 this.setState({
+                    newPrompts: prompts
+                });
+            }.bind(this))
+    },
+
+    getHotPosts() {
+        axios.get('/api/getHotPosts')
+            .then(function (response) {
+                var prompts = this.populatePrompts(response.data.data.children);
+                this.setState({
+                    hotPrompts: prompts
+                });
+            }.bind(this))
+    },
+
+    getRisingPosts() {
+        axios.get('/api/getRisingPosts')
+            .then(function (response) {
+                var prompts = this.populatePrompts(response.data.data.children);
+                this.setState({
+                    risingPrompts: prompts,
                     selectedPrompt: response.data.data.children[0].data.title,
                     exportAvailable: true
                 });
@@ -52,17 +81,26 @@ export class PromptsView extends React.Component<PromptsViewProps, PromptsViewSt
         for (var item of items) {
             promptItems.push(item.data);
         }
-        this.setState({
-            prompts: promptItems,
-            exportAvailable: true
-        });
+        return promptItems;
     }
 
     render() {        
         return (
             <div className='ms-welcome'>
-                <HeroList items={this.state.prompts}>
-                </HeroList>
+                <Pivot>
+                    <PivotItem linkText='New'>
+                        <HeroList items={this.state.newPrompts}>
+                        </HeroList>
+                    </PivotItem>
+                    <PivotItem linkText='Hot'>
+                        <HeroList items={this.state.hotPrompts}>
+                        </HeroList>
+                    </PivotItem>
+                    <PivotItem linkText='Rising'>
+                        <HeroList items={this.state.risingPrompts}>
+                        </HeroList>
+                    </PivotItem>
+                </Pivot>
             </div>
         );
     }

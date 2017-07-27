@@ -56,7 +56,35 @@ module.exports = webpackMerge(commonConfig, {
 
             app.get('/api/getNewPosts', function (req, res) {
                 reddit.get(
-                    '/r/writingprompts/new?limit=5',
+                    '/r/writingprompts/new?limit=10',
+                    {},
+                    function (error, response, body, next) {
+                        // next is not null, therefore there are more pages 
+                        if (next) {
+                            next(); // Invoke next to retrieve the next page 
+                        }
+                        res.send(body);
+                    }
+                );
+            });
+
+            app.get('/api/getHotPosts', function (req, res) {
+                reddit.get(
+                    '/r/writingprompts/hot?limit=10',
+                    {},
+                    function (error, response, body, next) {
+                        // next is not null, therefore there are more pages 
+                        if (next) {
+                            next(); // Invoke next to retrieve the next page 
+                        }
+                        res.send(body);
+                    }
+                );
+            });
+
+            app.get('/api/getRisingPosts', function (req, res) {
+                reddit.get(
+                    '/r/writingprompts/rising?limit=10',
                     {},
                     function (error, response, body, next) {
                         // next is not null, therefore there are more pages 
