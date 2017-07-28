@@ -18,9 +18,9 @@ export class ExportView extends React.Component<ExportViewProps, ExportViewState
     constructor(props, context) {
         super(props, context);
         this.state = {
-            promptResponse: 'lala',
-            documentBody: 'body',
-            documentSel: 'sel',
+            promptResponse: '',
+            documentBody: '',
+            documentSel: '',
             exportGuide: [];
         };
     }
@@ -57,8 +57,17 @@ export class ExportView extends React.Component<ExportViewProps, ExportViewState
                 promptResponse: add,
                 documentSel: documentSel.text,
                 documentBody: documentBody.text
+            }, function () {
+                this.convertToMarkdown();
             });
         });
+    },
+
+    convertToMarkdown() {
+        var promptResponse = this.state.documentSel ? this.state.documentSel : this.state.documentBody;
+        this.setState({
+           promptResponse: promptResponse
+        }
     }
 
     render() {        
@@ -66,7 +75,7 @@ export class ExportView extends React.Component<ExportViewProps, ExportViewState
             <div className='ms-welcome'> 
                 <HeroList message='Export your prompt response to Reddit!' items={this.state.exportGuide}>
                     <PrimaryButton className= 'ms-welcome__action' onClick= { this.export } > Export </PrimaryButton>
-                    
+                    <p> {this.state.promptResponse} </p>
                 </HeroList>
                 
             </div>
