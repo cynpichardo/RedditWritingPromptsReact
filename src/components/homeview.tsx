@@ -5,7 +5,7 @@ import { PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { Label } from 'office-ui-fabric-react/lib/Label';
 
 export interface HomeViewProps {
-    handleLogin: void;
+    handleLogin: () => void;
     loginLoading: boolean;
 }
 
