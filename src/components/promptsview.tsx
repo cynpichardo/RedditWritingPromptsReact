@@ -2,7 +2,6 @@ import * as React from 'react';
 import { ExportView } from './exportview';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import { PromptsList, PromptsListItem } from './promptslist';
-import axios from 'axios';
 
 export interface PromptsViewProps {
     newPrompts: PromptsListItem[];

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { HomeView } from './homeview';
 import { PromptsView } from './promptsview';
+import { PromptsListItem } from './promptslist';
 import axios from 'axios';
 
 export interface AppProps {
