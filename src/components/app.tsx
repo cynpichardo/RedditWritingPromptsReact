@@ -108,17 +108,6 @@ export class App extends React.Component<AppProps, AppState> {
         return promptItems;
     }
 
-    async export() {
-        await Word.run(async (context) => {
-            var documentBody = context.document.body;
-            context.load(documentBody);
-            await context.sync();
-            this.setState({
-                documentBody: documentBody.text
-            });
-        });
-    }
-
     render() {
         const isLoggedIn = this.state.isLoggedIn;
         const view = (isLoggedIn) ? <PromptsView newPrompts={this.state.newPrompts} hotPrompts={this.state.hotPrompts} risingPrompts={this.state.risingPrompts}/>

@@ -31,16 +31,19 @@ export class HomeView extends React.Component<HomeViewProps, HomeViewState> {
     }
 
     render() {
-        var login = this.props.loginLoading ? 
-            <Spinner size={ SpinnerSize.large } label='Loading...' ariaLive='assertive' />
-            : <PrimaryButton className= 'ms-welcome__action' onClick= { this.handleLogin } > Login</PrimaryButton>;
+        const loginLoading = this.props.loginLoading;
         return (
             <div >
                 <Header logo='assets/icon-52.png' title='Reddit Writing Prompts' message= 'Welcome' />
-                <main className="ms-welcome__main">
-                    <Label> Log into Reddit to start </Label>
-                    {login}
-                </main>
+                {loginLoading ?
+                    <main className="ms-welcome__main">
+                        <Spinner size={ SpinnerSize.large } label='Loading...' ariaLive='assertive' />
+                    </main>
+                    :
+                    <main className="ms-welcome__main">
+                        <Label> Log into Reddit to start </Label> 
+                        <PrimaryButton className= 'ms-welcome__action' onClick= { this.handleLogin } > Login</PrimaryButton>
+                    </main>;
             </div>
         );
     }

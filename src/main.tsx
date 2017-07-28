@@ -7,6 +7,7 @@ import './assets/styles/global.scss';
     const title = 'RedditWritingPrompts';
     const container = document.querySelector('#container');
 
+
     /* Render application after Office initializes */
     Office.initialize = () => {
         render(
