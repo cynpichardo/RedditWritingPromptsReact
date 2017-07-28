@@ -1,9 +1,8 @@
 @import 'flex.scss';
 
 * {
-    margin: auto;
-    padding: auto;
-    word-wrap: normal;
+    margin: 0;
+    padding: 0;
 }
 
 .ms-ListBasicExample-itemCell:hover {
@@ -32,8 +31,8 @@ body {
 .ms-welcome {
     position: relative;
     @include flex-column();
-    min-height: auto;
-    min-width: auto;
+    min-height: 500px;
+    min-width: 320px;
     overflow: auto;
     overflow-x: auto;
 
