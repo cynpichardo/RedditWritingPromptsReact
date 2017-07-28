@@ -9,6 +9,7 @@
     box-sizing: border-box;
     border-bottom: 1px solid $dividerColor;
     display: flex;
+    
   }
 
   .ms-ListBasicExample-itemCell:hover {
@@ -21,14 +22,14 @@
 
   .ms-ListBasicExample-itemContent {
     @include margin-left(10px);
-    overflow: hidden;
+    overflow: auto;
     flex-grow: 1;
   }
 
   .ms-ListBasicExample-itemName {
     @include ms-font-xl;
     white-space: nowrap;
-    overflow: hidden;
+    overflow: auto;
     text-overflow: ellipsis;
   }
 
