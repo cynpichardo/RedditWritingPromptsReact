@@ -19,7 +19,7 @@ export class PromptsList extends React.Component<PromptsListProps, any> {
         const listItems = this.props.items.map((item, index) => (
             <li className='ms-ListBasicExample-itemCell' key={index} onClick={this.addPromptToDoc.bind(this, item)} data-is-focusable={ true } style={{"wordWrap":"normal","width":"100%"}}>
                 <span className='ms-ListBasicExample-itemName'>{item.author}</span>
-                <span className='ms-ListBasicExample-itemIndex'>{item.score}</span>
+                <p className='ms-ListBasicExample-itemIndex'>{item.score}</p>
                 <p className='ms-font-m ms-fontColor-neutralPrimary'>{item.title}</p>
                 <br/><br/>
             </li>

@@ -71,6 +71,8 @@ export class App extends React.Component<AppProps, AppState> {
         axios.get('/api/getNewPosts')
             .then(function (response) {
                 var prompts = this.populatePrompts(response.data.data.children);
+                console.log("prompts");
+                console.log(prompts);
                 this.setState({
                     newPrompts: prompts
                 });
