@@ -38,6 +38,19 @@ module.exports = webpackMerge(commonConfig, {
                 app_secret: 'dBDopdckrUViUqD10dBhLDknE1Y',
                 redirect_uri: 'https://www.google.com'
             });
+            var converter = require('html-to-markdown');
+
+            app.get('/api/convertToMarkdown', function (req, res) { 
+                // Convert html to markdown
+                console.log('header:'+req.headers.html);
+                var markdown = converter.convert(req.headers.html);
+                res.json({ markdown: markdown });
+            });
+
+            app.get('/api/debugPrint', function (req, res) {
+                // Convert html to markdown
+                console.log(req.headers.html);
+            });
 
             app.get('/api/auth', function (req, res) { 
                 // Authenticate with username/password 

@@ -41,9 +41,9 @@ export class HomeView extends React.Component<HomeViewProps, HomeViewState> {
                     </main>
                     :
                     <main className="ms-welcome__main">
-                        <Label> Log into Reddit to start </Label> 
+                        <Label> Log into Reddit to start </Label>
                         <PrimaryButton className= 'ms-welcome__action' onClick= { this.handleLogin } > Login</PrimaryButton>
-                    </main>;
+                    </main>}
             </div>
         );
     }
