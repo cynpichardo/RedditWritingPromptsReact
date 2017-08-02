@@ -1,0 +1,68 @@
+.ms-ListBasicExample-itemCell { 
+min-height : 54px; 
+padding : 10px; 
+box-sizing : border-box; 
+display : flex; 
+} 
+.ms-ListBasicExample-itemCell::-moz-focus-inner { 
+border : 0; 
+} 
+.ms-ListBasicExample-itemCell { 
+outline : transparent; 
+position : relative; 
+} 
+.ms-Fabric.is-focusVisible .ms-ListBasicExample-itemCell:focus:after { 
+content : ''; 
+position : absolute; 
+top : 0; 
+right : 0; 
+bottom : 0; 
+left : 0; 
+} 
+.ms-ListBasicExample-itemCell:hover { 
+background : #eee; 
+} 
+.ms-ListBasicExample-itemImage { 
+flex-shrink : 0;
+text-align: center;
+align-self : center;
+font-size: 11px;
+width: 20px;  
+} 
+.ms-ListBasicExample-itemContent { 
+overflow : hidden; 
+flex-grow : 1; 
+} 
+html[dir="ltr"] .ms-ListBasicExample-itemContent { 
+margin-left : 10px; 
+} 
+html[dir="rtl"] .ms-ListBasicExample-itemContent { 
+margin-right : 10px; 
+} 
+.ms-ListBasicExample-itemName { 
+white-space : nowrap; 
+overflow : hidden; 
+text-overflow : ellipsis; 
+} 
+.ms-ListBasicExample-itemIndex { 
+font-size : 12px; 
+margin-bottom : 10px; 
+} 
+.ms-ListBasicExample-chevron { 
+align-self : center; 
+font-size : 17px; 
+flex-shrink : 0; 
+}
+
+.ms-ListBasicExample-chevronScore {
+    align-self: center;
+    font-size: 10px;
+    flex-shrink: 0;
+}
+
+html[dir="ltr"] .ms-ListBasicExample-chevron { 
+margin-left : 10px; 
+} 
+html[dir="rtl"] .ms-ListBasicExample-chevron { 
+margin-right : 10px; 
+} 

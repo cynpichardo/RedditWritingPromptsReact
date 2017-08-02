@@ -2,7 +2,7 @@ import * as React from 'react';
 import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
 import { Icon } from 'office-ui-fabric-react/lib/Icon';
 import { List } from 'office-ui-fabric-react/lib/List';
-
+import './promptsliststyle.css';
 
 export interface PromptsListItem {
     author: string;
@@ -22,8 +22,6 @@ export class PromptsList extends React.Component<PromptsListProps, any> {
     }
 
     handleClick(item) {
-        console.log("handleClick");
-        console.log(item);
         this.props.handleClick(item);
     }
 
