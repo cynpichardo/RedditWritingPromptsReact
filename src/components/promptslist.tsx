@@ -1,4 +1,8 @@
 import * as React from 'react';
+import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
+import { Icon } from 'office-ui-fabric-react/lib/Icon';
+import { List } from 'office-ui-fabric-react/lib/List';
+
 
 export interface PromptsListItem {
     author: string;
@@ -7,39 +11,49 @@ export interface PromptsListItem {
 }
 
 export interface PromptsListProps {
-    items: PromptsListItem[]
+    items: PromptsListItem[];
+    handleClick: () => void;
 }
 
 export class PromptsList extends React.Component<PromptsListProps, any> {
     constructor(props, context) {
         super(props, context);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(item) {
+        console.log("handleClick");
+        console.log(item);
+        this.props.handleClick(item);
     }
 
     render() {
-        const listItems = this.props.items.map((item, index) => (
-            <li className='ms-ListBasicExample-itemCell' key={index} onClick={this.addPromptToDoc.bind(this, item)} data-is-focusable={ true } style={{"wordWrap":"normal","width":"100%"}}>
-                <span className='ms-ListBasicExample-itemName'>{item.author}</span>
-                <p className='ms-ListBasicExample-itemIndex'>{item.score}</p>
-                <p className='ms-font-m ms-fontColor-neutralPrimary'>{item.title}</p>
-                <br/><br/>
-            </li>
-        ));
+        let { items} = this.props;
         return (
-            <main className='ms-welcome__main'>
-                <ul className='ms-List ms-welcome__features ms-u-slideUpIn10' style={{"wordWrap":"normal","width":"100%","tableLayout":"fixed"}}>
-                    {listItems}
-                </ul>
-                {this.props.children}
-            </main>
+            <FocusZone direction={ FocusZoneDirection.vertical }>
+                <List
+                    items={ items }
+                    onRenderCell={ (item, index) => (
+                        <div className='ms-ListBasicExample-itemCell' onClick={() => this.handleClick(item)} data-is-focusable={ true }>
+                            <div className='ms-ListBasicExample-itemImage'>
+                                <div>
+                                    <Icon className='ms-ListBasicExample-chevronScore'
+                                    iconName='Up'/> </div>
+                                <div > <span> { item.score } </span> </div>
+                                <div> <Icon className='ms-ListBasicExample-chevronScore'
+                                    iconName='Down'/> </div>
+                            </div>
+                            <div className='ms-ListBasicExample-itemContent'>
+                                <div className='ms-ListBasicExample-itemName'>{ item.title }</div>
+                                <div className='ms-ListBasicExample-itemIndex'>by { item.author }</div>
+                            </div>
+                            <Icon className='ms-ListBasicExample-chevron'
+                                iconName='ChevronRight'/>
+                        </div>
+                    ) }
+                    />
+            </FocusZone>
         );
-    };
-
-     async addPromptToDoc(item)  {
-        await Word.run(async function(context) {
-            var body = context.document.body;
-            body.insertParagraph(item.title, Word.InsertLocation.start);
-            await context.sync();
-        });
     }
 
 };
