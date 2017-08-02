@@ -38,12 +38,19 @@ module.exports = webpackMerge(commonConfig, {
                 app_secret: 'dBDopdckrUViUqD10dBhLDknE1Y',
                 redirect_uri: 'https://www.google.com'
             });
-            var converter = require('html-to-markdown');
+            var markdownConverter = require('to-markdown');
+            var italicsConverter = {
+                filter: ['i'],
+                replacement: function (innerHTML, node) {
+                    return '\n' + '*' + innerHTML + '*' + '\n\n';
+                }
+            };
 
             app.get('/api/convertToMarkdown', function (req, res) { 
                 // Convert html to markdown
                 console.log('header:'+req.headers.html);
-                var markdown = converter.convert(req.headers.html);
+                var markdown = markdownConverter(req.headers.html, { converters: [italicsConverter] });
+                console.log('markdown:'+markdown);
                 res.json({ markdown: markdown });
             });
 
