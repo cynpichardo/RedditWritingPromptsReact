@@ -38,11 +38,13 @@ module.exports = webpackMerge(commonConfig, {
                 app_secret: 'dBDopdckrUViUqD10dBhLDknE1Y',
                 redirect_uri: 'https://www.google.com'
             });
+            var bodyParser = require('body-parser');
+            app.use(bodyParser.json());
             var markdownConverter = require('to-markdown');
             var italicsConverter = {
                 filter: ['i'],
                 replacement: function (innerHTML, node) {
-                    return '\n' + '*' + innerHTML + '*' + '\n\n';
+                    return '*' + innerHTML + '*';
                 }
             };
 
@@ -70,6 +72,22 @@ module.exports = webpackMerge(commonConfig, {
                             console.log(reddit.access_token);
                             res.json({ token: reddit.access_token });
                         }
+                    }
+                );
+            });
+
+            app.post('/api/postToReddit', function (req, res) {
+                // Post a comment in behalf of the authenticated user
+                reddit.post(
+                    '/api/comment',
+                    {
+                        api_type: 'json',
+                        text: req.body.text,
+                        thing_id: 't3_6q6oax'
+                    },
+                    function (error, response, body) {
+                        console.log(body);
+                        res.send(body.json);
                     }
                 );
             });

@@ -32,8 +32,6 @@ export class PromptsView extends React.Component<PromptsViewProps, PromptsViewSt
     }
 
     selectPrompt(item) {
-        console.log("selectedPrompt");
-        console.log(item);
         this.setState({
             selectedPrompt: item.title
         });
